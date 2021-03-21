@@ -1,0 +1,140 @@
+﻿@model itproekt.ViewModels.MovieDetailsViewModel;
+
+@{
+     ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/Menu.cshtml";
+}
+
+        <div class="row pt-4" style="padding: 0px 80px;">
+
+            <div class="col-4 p-0">
+                <img style="width:250px; height:360px; border-radius: 5px; box-shadow: 0 10px 6px -6px black;"
+                     src="@Model.Movie.Poster" />
+                <br>
+                <div style="font-weight: bold; margin-top: 10px; margin-left:50px; padding-top: 10px;">
+                    <span class="fa fa-eye" style="color:#00e68a"></span>
+                    <span id="watchnum" style="font-size:15px;">@Model.Movie.Watches</span>
+
+                    <span class="fa fa-heart" style="color:#6f42c1; padding-left:20px;"></span>
+                    <span id="likenum" style="font-size:15px;">@Model.Movie.Likes</span>
+
+                    <span class="fa fa-star" style="color:#00e68a; padding-left:20px;"></span>
+                    <span style="font-size:15px;">@Model.Movie.Rating</span>
+                </div>
+                <div id="action-links">
+                    <div style="padding:20px 0px 15px 40px; border-radius:5px;">
+                        <a href="#" style="font-size:30px;" class="link-watch pr-4 fa fa-eye"></a>
+                        <a href="#" style="font-size:30px;" class="link-liked pr-4 fa fa-heart"></a>
+                        <a href="#" style="font-size:30px;" class="link-watchlist pr-4 fa fa-clock"></a>
+                    </div>
+                    <br>
+                    <button id="writereviewbtn" class="btn" style="color:white; margin-left:50px; padding-left:18px; padding-right: 18px; background-color: #00e68a; font-weight: bold;">
+                        REVIEW<span class="fa fa-pen pl-2"></span>
+                    </button>
+                    <br><br>
+                    <!--
+                    <button class="btn" style="color:white; margin-left:50px; background-color: #6f42c1; font-weight: bold;">
+                        ADD TO LIST
+                    </button>-->
+                </div>
+            </div>
+
+            <div class="col p-0">
+
+                <h1>@Model.Movie.Title<span style="font-size: 25px; color: #222222; padding-left:20px;">(@Model.Movie.Year)</span></h1>
+                <h5>Directed by @Model.Movie.Director</h5>
+                <p style="color: #00e68a; font-size:13px; font-weight: bold;">@Model.Movie.Genre</p>
+                <p>@Model.Movie.Description</p>
+
+                <h6>CAST</h6>
+                <hr style="border: 1px solid #222222">
+                <p>@Model.Movie.Cast</p>
+
+                <div id="reviews" class="pt-5">
+                    <h6 style="display: inline-block; font-weight: bolder; " class="m-0">REVIEWS</h6>
+                    <hr style="border: 1px solid #222222">
+
+                    @foreach (var review in Model.Reviews) {
+                        <div class="row">
+
+                            <div class="col">
+                                <img style="width:25px; height:25px; display: inline-block;" class="rounded-circle"
+                                     src="@review.Writer.Picture" />
+                                <p style="display: inline-block; font-weight: bold; color: #222222; font-size: 14px; padding-left: 2px;">
+                                    <span style="color:gray">Review by </span>
+                                    <a href="/Profile/Profile?id=@review.Writer.Username" style="color:black; text-decoration:none">@review.Writer.Username</a>
+                                </p>
+                                <div class="jstars"
+                                     data-value="@review.Rating"
+                                     data-total-stars="5"
+                                     data-color="#00FF99"
+                                     data-empty-color="white"
+                                     data-size="30px">
+                                </div>
+                                <p class="review-text">
+                                    @review.ReviewText
+                                </p>
+                                <a href="#" id="like-review" reviewId = "@review.ID" style="text-decoration: none; font-weight: bold; color:gray"><span class="fa fa-heart"></span> LIKE REVIEW</a>
+                                <p id="@review.ID" style="display: inline-block;  padding-left: 5px; font-weight: bold; color: #8965cd">@review.Likes LIKES</p>
+                            </div>
+
+                        </div>
+                        <hr style="padding-top: 10px;">
+                    }
+                </div>
+            </div>
+
+        </div>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#writereviewbtn").click(function () {
+
+                window.location.href = "/Movie/WriteReview?id=" + @Model.Movie.ID;
+            });
+
+            $("#like-review").click(function (e) {
+
+                e.preventDefault();
+                var path = "/Movie/LikeReview?reviewid=" + $(this).attr("reviewId");
+                var id = "#" + $(this).attr("reviewId");
+                var likes = parseInt($(id).text()) + 1;
+                var newlikes = likes + " LIKES";
+                $.get(path, function (data, status) {
+                    $(id).text(newlikes);
+                    alert(data);
+                });
+            });
+
+            $(".link-watchlist").click(function (e) {
+                    e.preventDefault();
+                    var path = "../Movie/AddToWatchlist?id=" + @Model.Movie.ID;
+                    $.get(path, function (data, status) {
+                        alert(data);
+                    });
+                });
+
+            $(".link-liked").click(function (e) {
+                e.preventDefault();
+                var path = "../Movie/AddToLiked?id=" + @Model.Movie.ID;
+                $.get(path, function (data, status) {
+                    var count = parseInt($("#likenum").text()) + 1;
+                    $("#likenum").text(count);
+                    alert(data);
+                });
+            });
+
+            $(".link-watch").click(function (e) {
+                e.preventDefault();
+                var path = "../Movie/AddToWatched?id=" + @Model.Movie.ID;
+                $.get(path, function (data, status) {
+                    var count = parseInt($("#watchnum").text()) + 1;
+                    $("#watchnum").text(count);
+                    alert(data);
+                });
+            });
+        });
+
+    </script>

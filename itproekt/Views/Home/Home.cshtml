@@ -1,0 +1,206 @@
+﻿@model  itproekt.ViewModels.HomeViewModel;
+
+@{
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/Menu.cshtml";
+
+    var activities = Model.MovieActivity;
+    if(activities.Count > 12) {
+        activities = activities.GetRange(0, 12);
+    }
+
+    var reviews = Model.Reviews;
+    if(reviews.Count > 8) {
+        reviews = reviews.GetRange(0, 8);
+    }
+}
+
+
+    <div>
+
+        <!-- HEADER -->
+
+        <img src="~/images/header.png">
+        <div id="header-info-home"
+             style="position: absolute; width: 1000px; top: 85%; left: 55%; transform: translate(-50%, -50%); color: white; text-shadow: 1px 1px black;">
+
+            <h3>Welcome back, <span style="color:#00b36b;">@Model.Profile.Username</span><span></span>. Here's what's new.</h3>
+        </div>
+
+        <div class="">
+
+            @if(ViewBag.Role == "Administrator") {
+            <div class="row pt-3" style="text-align:center">
+
+                <div class="col">
+                    @using (@Html.BeginForm("AddMovie", "Account")) {
+                        <button type="submit" style="background:black; color:white; width:100%;" class="btn">
+                            ADD A MOVIE
+                        </button>
+                    }
+                </div>
+
+                <div class="col">
+                    @using (@Html.BeginForm("CreateRole", "Account")) {
+                        <button type="submit" style="background:black; color:white; width:100%;" class="btn">
+                            CREATE ROLE
+                        </button>
+                    }
+                </div>
+
+                <div class="col">
+                    @using (@Html.BeginForm("AddRoleToUser", "Account")) {
+                        <button type="submit" style="background:black; color:white; width:100%;" class="btn">
+                            ADD ROLE TO USER
+                        </button>
+                    }
+                </div>
+
+
+            </div>
+             }
+
+            <div id="new-from-friends" class="pt-5 pb-4">
+                <div>
+                    <h6 style="display: inline-block; font-weight: bolder; " class="m-0">NEW ACTIVITY</h6>
+                    <hr>
+                </div>
+
+                <div class="row pl-5 pr-4">
+                    @foreach (var act in activities) {
+                        <div class="col-3 p-0 pb-4">
+                            <img style="width:25px; height:25px; display: inline-block; " class="rounded-circle" src=@act.Profile.Picture>
+                            <p style="display: inline-block; color: black; font-size: 14px; padding-left: 2px; padding-right: 5px;">
+                                <a href="/Profile/Profile?id=@act.Profile.Username" style="font-weight:bold; text-decoration:none">@act.Profile.Username</a> <span>@act.Action</span>
+                            </p>
+                            <div>
+                                <img class="movie-img" src=@act.Movie.Poster
+                                     style="width:200px; height: 300px; border-radius: 5px; box-shadow: 0 10px 6px -6px black;">
+                                <div class="img-links" style="position:absolute; top:40%; left:10%;
+                            background-color: black; width:150px; opacity: 0.9; text-align: center; border-radius: 10px; padding:20px 10px;">
+                                    <a href="../Movie/AddToWatchlist?id=@act.Movie.ID" style="font-size: 30px; color:white; padding:5px;" class="fa fa-clock link-watchlist"></a>
+                                    <a href="#" movie-id="@act.Movie.ID" style="font-size: 30px; color:#8965cd; padding:5px;" class="fa fa-heart link-liked"></a>
+                                    <a href="#" movie-id="@act.Movie.ID" style="font-size: 30px; color:#00e68a; padding:5px;" class="fa fa-eye link-watch"></a>
+                                    <a href="../Movie/MovieDetails?id=@act.Movie.ID" style="font-size: 30px; color:#00CCFF; padding:5px;" class="fa fa-ellipsis-h"></a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+
+            <!-- REVIEWS -->
+
+            <div id="new-reviews-friends" class="pt-4 mt-5 mb-5 pb-2">
+                <h6 style="display: inline-block; font-weight: bolder; " class="m-0">NEW REVIEWS</h6>
+                <hr>
+                <div class="row pl-5 pr-5">
+
+                    @foreach(var review in reviews) {
+
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-3">
+                                <img style="width:140px; height: 140px; border-radius: 5px;" src=@review.Movie.Poster>
+                            </div>
+                            <div class="col">
+                                <img style="width:25px; height:25px; display: inline-block;" class="rounded-circle" src=@review.Writer.Picture>
+                                <p style="display: inline-block; font-weight: bold; color: #222222; font-size: 14px; padding-left: 2px;">
+                                    <a href="/Profile/Profile?id=@review.Writer.Username" style="font-weight:bold; color:black; text-decoration:none">
+                                    @review.Writer.Username</a>
+                                </p>
+                                <h3 class="review-for-title">
+                                    <a href="../Movie/MovieDetails?id=@review.Movie.ID" 
+                                       style="text-decoration:none; color:black;">@review.Movie.Title</a> 
+                                    <span style="font-weight: normal; font-size: 22px; padding-left: 10px; color:gray;">@review.Movie.Year</span></h3>
+                                <div class="jstars"
+                                     data-value="@review.Rating"
+                                     data-total-stars="5"
+                                     data-color="#00FF99"
+                                     data-empty-color="white"
+                                     data-size="30px">
+                                </div>
+                                <p class="review-text">
+                                     @review.ReviewText
+                                </p>
+                                <a href="#" reviewId="@review.ID" class="like-review" style="text-decoration: none; font-weight: bold; color:gray"><span class="fa fa-heart"></span> LIKE REVIEW</a>
+                                <p id="@review.ID" style="display: inline-block; padding-left: 5px; font-weight: bold; color: #8965cd">@review.Likes likes</p>
+                            </div>
+                        </div>
+                        <hr style="padding-top: 10px;">
+                    </div>
+
+                    }
+
+                </div>
+            </div>
+
+            <script>
+
+                $(document).ready(function () {
+
+                    $(".img-links").css("display", "none");
+
+                    $(".movie-img").hover(function () {
+                        $(this).addClass("darken");
+                        var tofind = $(".img-links");
+                        var imglinks = $(this).parent().find(tofind);
+                        imglinks.css("display", "inline");
+                    }, function () {
+                        $(".img-links").css("display", "none");
+                        $(this).removeClass("darken");
+                    });
+
+                    $(".img-links").hover(function () {
+                        var tofind = $(".img-links");
+                        var imglinks = $(this).parent().find(tofind);
+                        imglinks.css("display", "inline");
+                        tofind = $(".movie-img");
+                        $(this).parent().find(tofind).addClass("darken");
+                    }, function () {
+                        $(".img-links").css("display", "none");
+                        $(".movie-img").removeClass("darken");
+                    });
+
+
+                    $(".link-watchlist").click(function (e) {
+                        e.preventDefault();
+                        var path = $(this).attr("href");
+                        $.get(path, function (data, status) {
+                            alert(data);
+                        });
+                    });
+
+                    $(".link-liked").click(function (e) {
+                        e.preventDefault();
+                        var movieID = $(this).attr("movie-id");
+                        var path = "../Movie/AddToLiked?id=" + movieID;
+                        $.get(path, function (data, status) {
+                            alert(data);
+                        });
+                    });
+
+                    $(".link-watch").click(function (e) {
+                        e.preventDefault();
+                        var movieID = $(this).attr("movie-id");
+                        var path = "../Movie/AddToWatched?id=" + movieID;
+                        $.get(path, function (data, status) {
+                            alert(data);
+                        });
+                    });
+
+                    $(".like-review").click(function (e) {
+                        e.preventDefault();
+                        var path = "/Movie/LikeReview?reviewid=" + $(this).attr("reviewId");
+                        var id = "#" + $(this).attr("reviewId");
+                        var likes = parseInt($(id).text()) + 1;
+                        var newlikes = likes + " LIKES";
+                        $.get(path, function (data, status) {
+                            $(id).text(newlikes);
+                            alert(data);
+                        });
+                    });
+
+                });
+            </script>

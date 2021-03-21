@@ -1,0 +1,221 @@
+﻿@using itproekt.Models;
+@model Profile;
+
+@{
+    ViewData["Title"] = "Watched";
+    Layout = "~/Views/Shared/Menu.cshtml";
+}
+
+<div class="row pb-5">
+
+    <div class="col-9 mt-4 pl-4">
+        <div>
+            <h6 style="display: inline-block; font-weight: bolder; " class="m-0">@ViewBag.Whose</h6>
+            <span style="display:inline-block; color:#00e68a; font-weight: bolder;
+                        float: right; border-radius: 5px; margin-right: 50px;">@Model.Liked.Count</span>
+                    </div>
+                    <hr class="mt-2 mb-3">
+                    <div class="row pl-4">
+                        @foreach (var movie in Model.Liked) {
+                            <div class="col-3 p-0 pb-4">
+                                <img class="movie-img" style="width: 150px; height: 220px; box-shadow: 0 10px 6px -6px black; border-radius: 5px;"
+                                     src="@movie.Poster">
+                                <div class="img-links" style="position:absolute; top:30%; left:12%;
+                            background-color: black; width:100px; opacity: 0.9; text-align: center; border-radius: 10px; padding:20px 10px;">
+                                    <a href="../Profile/RemoveFromList?id=@movie.ID&list=liked" style="font-size: 20px; color:#00e68a; padding:5px;" class="fa fa-trash link-remove"></a>
+                                    <a href="../Movie/AddToWatchlist?id=@movie.ID" style="font-size: 20px; color:white; padding:5px;" class="fa fa-clock link-watchlist"></a>
+                                    <a href="../Movie/MovieDetails?id=@movie.ID" style="font-size: 20px; color:#00CCFF; padding:5px;" class="fa fa-ellipsis-h"></a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+                </div>
+
+                <!-- PROFILE MENU -->
+    <div class="col">
+        <div class="row mt-4" style="width: 250px; margin: 0;">
+            <div class="col p-0">
+                <img src="@Model.Picture" style="width: 100px; height: 100px; border-radius: 10px;">
+            </div>
+            <div class="col p-0">
+                <h3>@Model.Username</h3>
+                @using (Html.BeginForm("Edit", "Profile")) {
+                    <button class="btn btn-outline-dark w-75 mt-4" type="submit" style="height: 32px; font-size: 12px; vertical-align: center">EDIT PROFILE</button>
+                }
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col" id="my-bio">
+                <p>@Model.Bio</p>
+                <hr>
+            </div>
+        </div>
+
+        <!--FILTERING BY GENRE-->
+        @if (ViewBag.Whose == "YOUR LIKES") {
+            <div>
+                <h6 class="pb-3" style="color:#00e68a">Filter by genre</h6>
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="action" value="Action" name="genre">
+                            <label class="custom-control-label pl-4" for="action">Action</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="adventure" value="Adventure" name="genre">
+                            <label class="custom-control-label pl-4" for="adventure">Adventure</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="comedy" value="Comedy" name="genre">
+                            <label class="custom-control-label pl-4" for="comedy">Comedy</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="drama" value="Drama" name="genre">
+                            <label class="custom-control-label pl-4" for="drama">Drama</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="documentary" value="Documentary" name="genre">
+                            <label class="custom-control-label pl-4" for="documentary">Documentary</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="fantasy" value="Fantasy" name="genre">
+                            <label class="custom-control-label pl-4" for="fantasy">Fantasy</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="history" value="History" name="genre">
+                            <label class="custom-control-label pl-4" for="history">History</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="horror" value="Horror" name="genre">
+                            <label class="custom-control-label pl-4" for="horror">Horror</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="mystery" value="Mystery" name="genre">
+                            <label class="custom-control-label pl-4" for="mystery">Mystery</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="romance" value="Romance" name="genre">
+                            <label class="custom-control-label pl-4" for="romance">Romance</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="thriller" value="Thriller" name="genre">
+                            <label class="custom-control-label pl-4" for="thriller">Thriller</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <button class="btn btn-outline-dark w-75 mt-4" id="filterbtn" style="height: 32px; font-size: 12px; vertical-align: center">FILTER</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+            </div>
+            <script>
+
+            $(document).ready(function () {
+
+                $(".img-links").css("display", "none");
+
+                $(".movie-img").hover(function () {
+                    $(this).addClass("darken");
+                    var tofind = $(".img-links");
+                    var imglinks = $(this).parent().find(tofind);
+                    imglinks.css("display", "inline");
+                }, function () {
+                    $(".img-links").css("display", "none");
+                    $(this).removeClass("darken");
+                });
+
+                $(".img-links").hover(function () {
+                    var tofind = $(".img-links");
+                    var imglinks = $(this).parent().find(tofind);
+                    imglinks.css("display", "inline");
+                    tofind = $(".movie-img");
+                    $(this).parent().find(tofind).addClass("darken");
+                }, function () {
+                    $(".img-links").css("display", "none");
+                    $(".movie-img").removeClass("darken");
+                });
+
+
+                $(".link-watchlist").click(function (e) {
+                    e.preventDefault();
+                    var path = $(this).attr("href");
+                    $.get(path, function (data, status) {
+                        alert(data);
+                    });
+                });
+
+                $(".link-liked").click(function (e) {
+                    e.preventDefault();
+                    var movieID = $(this).attr("movie-id");
+                    var path = "../Movie/AddToLiked?id=" + movieID;
+                    $.get(path, function (data, status) {
+                        alert(data);
+                    });
+                });
+
+                $(".link-remove").click(function (e) {
+                    e.preventDefault();
+                    var toDelete = $(this).parent().parent();
+                    var path = $(this).attr("href");
+                    $.get(path, function (data, status) {
+                        toDelete.css("display", "none");
+                        alert(data);
+                    });
+                });
+
+                $("#filterbtn").click(function (e) {
+
+                    e.preventDefault();  
+                    var selectedgenre = $("input[name='genre']:checked").val();
+                    window.location.href = "/Profile/FilterByGenre?genre=" + selectedgenre + "&list=liked";
+                });
+
+            });
+            </script>

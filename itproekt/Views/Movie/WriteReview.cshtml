@@ -1,0 +1,54 @@
+﻿@model itproekt.ViewModels.ReviewViewModel;
+
+@{
+     ViewData["Title"] = "Write review";
+    Layout = "~/Views/Shared/Menu.cshtml";
+}
+
+        <div class="row pt-4 pb-4" style="padding: 0px 80px;">
+
+            <div class="col-4 p-0">
+                <h4>@Model.Movie.Title</h4>
+                <img style="width:250px; height:360px; border-radius: 5px; box-shadow: 0 10px 6px -6px black;"
+                     src="@Model.Movie.Poster" />
+                <br>
+                <div style="font-weight: bold; margin-top: 10px; margin-left:70px; padding-top: 10px;">
+                    <span class="fa fa-eye" style="color:#00e68a"></span>
+                    <span style="font-size:15px;">@Model.Movie.Watches</span>
+
+                    <span class="fa fa-heart" style="color:#6f42c1; padding-left:20px;"></span>
+                    <span style="font-size:15px;">@Model.Movie.Likes</span>
+                </div>
+
+            </div>
+
+            <div class="col p-0">
+
+                @using (Html.BeginForm("PostReview", "Movie", new { id = Model.Movie.ID })) {
+
+                    <h3>Write a Review</h3>
+
+                    <div class="form-group mt-2">
+                        <h6>Your review: </h6>
+                        @Html.TextAreaFor(m => m.ReviewText, new { style = "width:500px;", rows = "10", @class = "form-control" })
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <h6>Your rating: </h6>
+                        @Html.TextBoxFor(m => m.Rating, new { style = "width:500px;", @class = "form-control" })
+                    </div>
+
+                    <div id="validation" class="form-group mt-2 mb-2">
+                        @Html.ValidationSummary()
+                    </div>
+                    <br />
+                    <button id="postbtn" type="submit" class="btn" style="color:white; margin-left:50px; background-color: #6f42c1; font-weight: bold;">
+                        POST
+                    </button>
+                }
+
+
+            </div>
+
+
+        </div>

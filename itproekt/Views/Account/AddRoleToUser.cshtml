@@ -1,0 +1,38 @@
+﻿@model itproekt.ViewModels.RoleToUserViewModel;
+
+@{
+    ViewData["Title"] = "Add role to user";
+    Layout = "~/Views/Shared/Menu.cshtml";
+}
+
+
+    <div class="content">
+
+        <div id="signup-form">
+
+            <h3 style="padding-bottom: 30px">Add Role To User</h3>
+
+            @using (@Html.BeginForm("AddRoleToUser", "Account")) {
+
+                <div class="form-group pt-3 ml-5 w-50">
+                    @Html.ValidationSummary()
+                </div>
+
+                <div class="form-group pt-3 ml-5 w-50">
+                    @Html.TextBoxFor(m => m.RoleName, new { placeholder = "Rolename" })
+                </div>
+
+                <div class="form-group pt-3 ml-5 w-50">
+                    @Html.TextBoxFor(m => m.Username, new { placeholder = "Username" })
+                </div>
+
+                <div class="form-group pt-3 ml-5 w-50">
+                    @Html.CheckBoxFor(m => m.RemoveRoles)
+                    <label>Remove previous roles</label>
+                </div>
+
+                <button type="submit" class="btn" id="signup-btn">Submit</button>
+            }
+        </div>
+
+    </div>

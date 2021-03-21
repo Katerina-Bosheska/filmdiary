@@ -1,0 +1,77 @@
+﻿@using  itproekt.ViewModels;
+@model EditProfileViewModel;
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/Menu.cshtml";
+
+    var newmodel = new EditProfileViewModel();
+}
+
+    <div class="content mt-5 p-3 pb-5">
+
+        <h3>Edit Your Profile</h3>
+        <hr>
+
+        @using (Html.BeginForm("ApplyEdit", "Profile")) {
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <h6>New Username</h6>
+                @Html.TextBoxFor(m => m.Username, new { value = @Model.Username, style = "width:100%;", @class = "form-control" })
+            </div>
+
+            <br><br>
+
+            <div class="form-group">
+                <h6>Update your bio</h6>
+                @Html.TextAreaFor(m => m.Bio, new { style = "width:500px;", value = Model.Bio, rows = "5", @class = "form-control" })
+            </div>
+
+            <br>
+
+            <div class="form-group">
+                <h6>Update your bio</h6>
+                @Html.TextBoxFor(m => m.Picture, new { style = "width:500px;", value = Model.Picture, rows = "5", @class = "form-control" })
+            </div>
+
+            <button class="btn" style="color:white; margin-top: 30px; background-color: #6f42c1;" id="save-btn">
+                Save changes
+            </button>
+
+        </div>
+
+        <!--
+        <div class="col">
+            <h6>Change your profile picture</h6>
+            <br />
+            <div class="row">
+                <div class="col">
+                    <a href="#" id="changepic">
+                        <img id="pic" name="Picture" src=@Model.Picture style="width:150px; height:150px; opacity:0.7; border-radius: 10px;">
+                        <span class="fa fa-plus" style="position:absolute; top:35%; left:15%; font-size: 50px; color:white;"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    -->
+    </div>
+
+        }
+    </div>
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#changepic").click(function (e) {
+
+                e.preventDefault();
+                var newsrc = window.prompt("Post the url of your picture");
+                $("#pic").attr("src", newsrc);
+            });
+
+        });
+
+    </script>

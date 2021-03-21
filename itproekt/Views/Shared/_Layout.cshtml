@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filmdiary</title>
+
+    <!-- BOOTSTRAP css-->
+    <link rel="stylesheet" href="~/css/index.css">
+    <link rel="stylesheet" href="~/bootstrap/style.css">
+    <link rel="stylesheet" href="~/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="~/font-awesome/css/all.css">
+    <script src="~/jquery/jquery-3.4.1.js"></script>
+    <script src="~/jquery/jstars.min.js"></script>
+    <style>
+        input[type=checkbox]{
+            display:inline !important;
+        }
+
+        .inner-menu a { text-decoration:none }
+
+        .darken {
+            filter: brightness(60%);
+            opacity: 0.9;
+        }
+
+        #validation ul { list-style: none; text-align:left; color:red; }
+
+        #signup-form ul {
+            list-style: none;
+            text-align: left;
+            color: red;
+        }
+
+        #action-links a {
+            color:#222222;
+            text-decoration:none;
+        }
+
+        input[type=checkbox] {
+            display: inline !important;
+        }
+
+        .img-links a {
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+<body style="background-color: #222222;">
+
+    <div class="container" style="border-radius: 0px;">
+
+        <div class="upper-menu">
+            <div class="inner-menu">
+                <a id="logo">FILMDIARY</a>
+                <div class="form-group pt-3 ml-5 w-50">
+                    <label><i class="fa fa-search mt-3"></i></label>
+                    <input name="search-bar" id="search-bar" placeholder="Search for movies, users, lists and more" />
+                </div>
+
+                <div id="login">
+                    @Html.ActionLink("Log In", "Login", "Account")
+                </div>
+
+            </div>
+        </div>
+
+        <div class="menu">
+            <div class="inner-menu">
+                @Html.ActionLink("HOME", "Home", "Account")
+                @Html.ActionLink("PROFILE", "MyProfile", "Profile")
+                @Html.ActionLink("WATCHED", "Watched", "Profile")
+                @Html.ActionLink("WATCHLIST", "Watchlist", "Profile")
+                @Html.ActionLink("LIKES", "Likes", "Profile")
+                @Html.ActionLink("REVIEWS", "Reviews", "Profile")
+                @Html.ActionLink("EXPLORE", "Explore", "Movie")
+            </div>
+        </div>
+
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+
+    </div>
+
+    <footer style="background-color: black;
+        color: white;
+        text-align: center;
+        padding: 20px;">
+        <p>Copyright &copy; 2020</p>
+    </footer>
+
+
+</body>
+</html>

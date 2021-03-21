@@ -1,0 +1,47 @@
+﻿@model itproekt.ViewModels.ResultsViewModel;
+
+@{
+    ViewData["Title"] = "SearchResult";
+    Layout = "~/Views/Shared/Menu.cshtml";
+
+    var total = Model.MovieResults.Count + Model.UserResults.Count;
+}
+
+    <div class="p-5">
+        <h6>FOUND @total MATCHES FOR "@Model.Key"</h6>
+        <hr class="mb-3" />
+        @foreach (var item in Model.MovieResults) {
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-3">
+                        <img style="width:140px; height: 140px; border-radius: 5px;" src=@item.Poster>
+                    </div>
+                    <div class="col">
+                        <h3>
+                            <a href="../Movie/MovieDetails?id=@item.ID"
+                               style="text-decoration:none; color:black;">@item.Title</a>
+                        </h3>
+                        <span style="font-weight: normal; font-size: 20px; padding-left: 10px; color:gray;">@item.Year</span>
+                        <h6>Directed by @item.Director</h6>
+                        <p class="review-text">
+                            @item.Cast
+                        </p>
+                    </div>
+                </div>
+                <hr style="padding-top: 10px;">
+            </div>
+        }
+
+        @foreach (var user in Model.UserResults) {
+            <img style="width:50px; height:50px; display: inline-block; border-radius:10px;" src=@user.Picture>
+            <p style="display: inline-block; font-weight: bold; color: #222222; font-size: 14px; padding-left: 2px;">
+                <a href="/Profile/Profile?id=@user.Username" style="font-weight:bold; color:black; text-decoration:none">
+                    @user.Username
+                </a>
+            </p>
+            <hr style="padding-top: 10px; padding-bottom:5px;">
+        }
+
+
+    </div>
+
